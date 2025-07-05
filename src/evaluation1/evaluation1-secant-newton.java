@@ -29,6 +29,7 @@ public class evaluation1-secant-newton {
                     break;
                 case 2:
                     System.out.println("Se ha seleccionado Metodo de la Secante, ingrese los siguientes datos: ");
+                    System.out.println(f.format(metodoSecante(pregunta)));
                     break;
                 case 10:
                     System.out.println("Saliendo...");
@@ -102,5 +103,53 @@ public class evaluation1-secant-newton {
 
 
         return 0;
+    }
+    static double metodoSecante(String pregunta) {
+
+        int contador = 1, tCalculos;
+        double x1, x2 , x3, error;
+        double fx1, fx2,fx3;
+
+        System.out.print("\nIngrese x1 -> ");
+        x1 = input.nextDouble();
+        System.out.print("\nIngrese x2 -> ");
+        x2 = input.nextDouble();
+        System.out.print("\nIngrese el error -> ");
+        error = input.nextDouble();
+        System.out.print("\nIngrese el total de calculos -> ");
+        tCalculos = input.nextInt();
+        imprimirPantallaInicio("la Secante");
+
+
+        fx1=((-0.000234)*(Math.pow((x1-80),2)))+1.5;
+        fx2=((-0.000234)*(Math.pow((x2-80),2)))+1.5;
+
+        System.out.println("PREGUNTA: " + pregunta);
+
+        System.out.println("| Nc\t|\tx1\t|\tx2\t|\tf(x1)\t|\tf(x2)\t|\tx3\t|\tf(x3)\t|");
+
+        do {
+
+            x3=x1-((x1-x2)*fx1)/(fx1-fx2);
+            fx3=((-0.000234)*(Math.pow((x3-80),2)))+1.5;
+            System.out.println("| "+ contador +"\t| "+f.format(x1)+"\t| "+f.format(x2)+"\t| "+f.format(fx1)+"\t| "+f.format(fx2)+"\t| "+f.format(x3)+"\t| "+f.format(fx3)+"\t|");
+            if(Math.abs(fx3) > error && contador <= tCalculos) {
+                contador++;
+                x1=x2;
+                x2=x3;
+                fx1=fx2;
+                fx2=fx3;
+            }else if (contador > tCalculos){
+                System.out.println("Se han superado la cantidad de cálculos necesarios...");
+                return -1;
+            }else {
+                System.out.println("La Raíz de la Ecuación = " + x3);
+                return x3;
+            }
+        }while(Math.abs(fx2) > error && contador <= tCalculos);
+
+        System.out.println("No se ha encontrado la raíz en el rango proupuesto (" + x1+ " - " + x2 + ")");
+
+        return -1;
     }
 }
